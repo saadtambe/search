@@ -371,15 +371,13 @@ def cornersHeuristic(state, problem):
     walls = problem.walls # These are the walls of the maze, as a Grid (game.py)
     
     xy1 = state[0]
-    eucl_dist = None
+    man_dist = 0
     
     for corner in corners:
-        temp_eucl_dist = euclidean( xy1, corner )
-        if (eucl_dist == None or temp_eucl_dist > eucl_dist) and not state[1][corner]:
-            eucl_dist = temp_eucl_dist
-    if eucl_dist == None:
-        eucl_dist = 0
-    return eucl_dist # Default to trivial solution
+        temp_man_dist = manhattan( xy1, corner )
+        if (temp_man_dist > man_dist) and not state[1][corner]:
+            man_dist = temp_man_dist
+    return man_dist
 
 def manhattan (xy1, xy2):
     return abs(xy1[0] - xy2[0]) + abs(xy1[1] - xy2[1])
