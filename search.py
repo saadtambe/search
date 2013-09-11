@@ -365,7 +365,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     queue.push(([start_state],0),heuristic(start_state[0],problem))
 
     while not queue.isEmpty():
-#         print "in loop"
         curr = queue.pop()
         state = curr[0][-1]
         cumulative_val = curr[1]
@@ -373,16 +372,17 @@ def aStarSearch(problem, heuristic=nullHeuristic):
         if problem.isGoalState(state[0]):
             final = [x[1] for x in curr[0]]
             return final[1:]
-#         print "is ",state," in closed? ",(state[0] in closed)
         if state[0] not in closed:
             closed.append(state[0])
     
-            
+#            print state[0]
+#            if (len(state[0]) > 1):
+#                print state[0][1]
             fringe = list(problem.getSuccessors(state[0]))
             for child in fringe:
                 if child[0] not in closed:
     #                 closed.append(child[0])
-    #                 print "from node: ",state," we add child: ",child
+                    #print "from node: ",state," we add child: ",child
                     child_val = child[2]
                     temp = list(curr[0])
                     temp.append(child)
