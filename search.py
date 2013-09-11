@@ -311,7 +311,6 @@ def breadthFirstSearch(problem):
                 temp = list(curr)
                 temp.append(child)
                 queue.push(temp)
-
  
 
 def uniformCostSearch(problem):

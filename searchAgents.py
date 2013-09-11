@@ -284,21 +284,24 @@ class CornersProblem(search.SearchProblem):
         self._expanded = 0 # Number of search nodes expanded
         # Please add any code here which you would like to use
         # in initializing the problem
-        self.corner_dict = {}
-        for corner in self.corners:
-            self.corner_dict[corner] = False
+
 
     def getStartState(self):
         "Returns the start state (in your state space, not the full Pacman state space)"
         
-        return self.startingPosition
+        corner_dict = {}
+        for corner in self.corners:
+            corner_dict[corner] = False
+        return ( self.startingPosition, corner_dict )
         
     def isGoalState(self, state):
         "Returns whether this search state is a goal state of the problem"
         #([positions],corner_dict)
         goal = True
-        for corner in self.corner_dict:
-            if self.corner_dict[corner] == False:
+        corner_dict = state[1]
+        #print corner_dict
+        for corner in corner_dict:
+            if not corner_dict[corner]:
                 goal = False
                 break
         return goal
@@ -327,8 +330,11 @@ class CornersProblem(search.SearchProblem):
             dx, dy = Actions.directionToVector(action)
             nextx, nexty = int(x + dx), int(y + dy)
             if not self.walls[nextx][nexty]:
-                nextState = (nextx, nexty)
-                cost = self.costFn(nextState)
+                corner_dict = state[1].copy()
+                if (nextx, nexty) in self.corners:
+                    corner_dict[(nextx, nexty)] = True
+                nextState = [(nextx, nexty), corner_dict]
+                cost = 1
                 successors.append( ( nextState, action, cost) )
 
         self._expanded += 1
