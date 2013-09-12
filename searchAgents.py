@@ -470,12 +470,39 @@ def foodHeuristic(state, problem):
     Subsequent calls to this heuristic can access problem.heuristicInfo['wallCount']
     """
     position, foodGrid = state
+    
+    def wall_count(dotPos, position, walls):
+        wall_adjustment = 0
+        wall_adjustment2 = 0
+        startX = min(position[0],dotPos[0])
+        endX = max(position[0],dotPos[0])+1
+        startY = min(position[1],dotPos[1])
+        endY = max(position[1],dotPos[1])+1
+        for x in range(startX,endX):
+            if walls[x][position[1]]:
+                wall_adjustment += 1
+            if walls[x][dotPos[1]]:
+                wall_adjustment2 += 1
+                
+        for y in range(startY,endY):
+            if walls[position[0]][y]:
+                wall_adjustment += 1
+            if walls[dotPos[0]][y]:
+                wall_adjustment2 += 1
+            
+                
+        return min(wall_adjustment,wall_adjustment2)
+            
+    
+    
     dist = 0
     #dist = len(foodGrid.asList())
     for dotPos in foodGrid.asList():
-        man_dist = manhattan(position,dotPos)
+        man_dist = manhattan(position,dotPos) + wall_count(dotPos, position,problem.walls)
+        
         if man_dist > dist:
             dist = man_dist
+        
     return dist
 
 class ClosestDotSearchAgent(SearchAgent):
