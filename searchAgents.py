@@ -566,11 +566,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         x,y = state
 
         "*** YOUR CODE HERE ***"
-        if self.food[state[0]][state[1]]:
-            return True
-        else:
-            return False
-        util.raiseNotDefined()
+        return self.food[x][y]
 
 ##################
 # Mini-contest 1 #
